@@ -1,3 +1,6 @@
 .vscode/
-test*
+
+test/sample_data/
+sample_data/
+
 main

@@ -3,7 +3,7 @@
 #include <string.h>
 #include <dirent.h>
 
-#include "src/helpers.h"
+#include "helpers.h"
 
 void organizer(const char *path);
 
@@ -64,15 +64,28 @@ void organizer(const char *path) {
 
 			// se l'elemento che viene trovato è una directory, viene lanciata nuovamente la funzione,
 			// in modo da organizzare anche le sottocartelle.
-			if (S_ISDIR(st.st_mode)) { 
+			if (S_ISDIR(st.st_mode)) {
+
+				// Per evitare che il programma crei sottocartelle inutili ricorsivamente,
+				// prima viene effettuato un controllo per vedere se è una sottocartella creata dal programma.
+				
+				const char *excludedDirs[] = {"Audio", "Images", "Videos", "Archives", "Documents", "Data", "Code", "Executables", "Config", "Logs", "Others"};
+				size_t numExcluded = sizeof(excludedDirs) / sizeof(excludedDirs[0]);
+
+				// Salta le directory create dal programma
+				int skip = 0;
+				for (size_t i = 0; i < numExcluded; i++) {
+					if (strcmp(filename, excludedDirs[i]) == 0) {
+						skip = 1;
+						break;
+					}
+				}
+				if (skip) continue;
 
 				printf(BLU "[+] Found directory: %s\n" RESET, fullPath);
-				              
-				// Aggiungi lo slash se necessario per la sottodirectory
-                if (fullPath[strlen(fullPath) - 1] != '/') strcat(fullPath, "/");
-				
-				organizer(fullPath);
 
+				if (fullPath[strlen(fullPath) - 1] != '/') strcat(fullPath, "/");
+				organizer(fullPath);
 			} else if (S_ISREG(st.st_mode)) {
 				
 				/* 

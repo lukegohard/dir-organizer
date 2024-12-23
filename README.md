@@ -30,7 +30,7 @@ Enter range => <n>
 
 1. Only files
 2. Files and folders (with subfolders)
-Enter choice (1/2) => <1|2>
+Enter choice (1/2) => <1/2>
 ```
 ```bash
 ./main sample_data
@@ -67,7 +67,7 @@ The program supports file categorization into the following categories:
 - Extensions: `exe`, `bat`, `sh`, `msi`, `apk`, `jar`
 
 #### **Configuration**
-- Extensions: `ini`, `log`
+- Extensions: `ini`
 
 #### **Logs**
 - Extensions: `log`
